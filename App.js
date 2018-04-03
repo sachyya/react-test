@@ -161,7 +161,7 @@ class App extends Component {
         return {
           name: item.name, 
           imageUrl: item.images[0].url,
-          songs: item.trackDatas.slice( 0, 2)
+          songs: item.trackDatas.slice(0, 3)
         }
       })
     }))
@@ -170,10 +170,13 @@ class App extends Component {
     let playlistToRender = 
       this.state.user && 
       this.state.playlists 
-        ? this.state.playlists.filter(playlist =>
-          playlist.name.toLowerCase().includes(
-            this.state.filterString.toLowerCase())) 
-        : []
+        ? this.state.playlists.filter(playlist =>{
+          let matchesPlaylist = playlist.name.toLowerCase().includes(
+            this.state.filterString.toLowerCase())
+          let matchesSong = playlist.songs.filter(song => song.name.toLowerCase().includes(
+            this.state.filterString.toLowerCase()))
+          return matchesPlaylist || matchesSong.length > 0
+        }) : []
     return (
         <div className="App">
             {this.state.playlists ?
